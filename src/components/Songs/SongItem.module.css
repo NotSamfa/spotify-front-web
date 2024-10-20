@@ -1,0 +1,55 @@
+.song {
+    display: flex;
+    align-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+    gap: 1.25rem;
+    justify-content: space-between;
+    padding: 0.5rem;
+    transition: background-color 0.2s easxe;
+}
+
+.song:hover {
+    background-color: var(--clr-second-gray);
+}
+
+.song span {
+    align-self: center;
+    color: var(--clr-light-gray);
+    margin-right: -0.25rem;
+}
+
+.song img {
+    height: 40px;
+    width: 40px;
+}
+
+.infoContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 2;
+}
+
+.infoMain {
+    display: flex;
+    flex-direction: column;
+    gap: -0.5rem;
+}
+
+.title {
+    color: var(--clr-light);
+}
+
+.artist {
+    color: var(--clr-light-gray);
+}
+
+.title:hover,
+.artist:hover {
+    text-decoration: underline;
+}
+
+.duration {
+    margin-right: 1rem;
+}

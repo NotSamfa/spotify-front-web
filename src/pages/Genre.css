@@ -1,0 +1,23 @@
+.genre {
+    display: flex;
+    flex-direction: column;
+}
+
+.genre__title {
+    display: flex;
+    align-items: end;
+    height: 10rem;
+    padding-left: 3rem;
+    padding-bottom: 1.5rem;
+    font-size: var(--size-3xl);
+    text-transform: uppercase;
+    letter-spacing: -0.05;
+    font-weight: bold;
+}
+
+.genre__template {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 2rem 2rem 2rem 1rem;
+}

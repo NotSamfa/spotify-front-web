@@ -1,0 +1,78 @@
+.explore__title {
+    margin-top: 1.5rem;
+    position: relative;
+    left: 1.75rem;
+}
+
+.explore__container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1.25rem;
+    padding: 1.5rem;
+    justify-items: center;
+}
+
+.card {
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: var(--size-2xl);
+    font-weight: bold;
+    padding: 1.25rem;
+    position: relative;
+    height: 115px;
+    width: 245px;
+    overflow: hidden;
+}
+
+.card.expanded {
+    height: 135px;
+    width: 290px;
+}
+
+.card img {
+    width: 50%;
+    transform: rotate(25deg);
+    position: relative;
+    left: 10rem;
+    bottom: 0.75rem;
+}
+
+.card.expanded img {
+    left: 12rem;
+}
+
+.pop {
+    background-color: #477d95;
+}
+
+.hip-hop {
+    background-color: #01112f;
+}
+
+.indie {
+    background-color: #303030;
+}
+
+.k-pop {
+    background-color: #404353;
+}
+
+.metal {
+    background-color: #052f3d;
+}
+
+.blues {
+    background-color: #1166af;
+}
+
+.funk {
+    background-color: #477d95;
+}
+
+.classical {
+    background-color: #7d4b32;
+}
+
+.alt {
+    background-color: #e13300;
+}

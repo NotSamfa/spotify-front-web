@@ -1,0 +1,101 @@
+.album {
+    display: flex;
+    flex-direction: column;
+}
+
+.album__content {
+    margin: 3rem;
+}
+
+.content-type {
+    position: relative;
+    bottom: 0.5rem;
+    letter-spacing: 0.025rem;
+}
+
+.album__header {
+    display: flex;
+    align-items: center;
+    cursor: default;
+    gap: 2rem;
+    padding: 1.5rem;
+    box-shadow: 1px 5px 60px var(--clr-gray);
+}
+
+
+.album__header img {
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px var(--clr-gray);
+    height: 232px;
+    width: 232px;
+}
+
+.album__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.album__name {
+    font-size: var(--size-7xl);
+    letter-spacing: -0.175rem;
+    font-weight: bold;
+}
+
+.info__extra {
+    display: flex;
+    align-items: center;
+    font-size: var(--size-sm);
+    gap: 0.5rem;
+}
+
+.album__artist {
+    letter-spacing: 0.05rem;
+    font-weight: bold;
+}
+
+.album__artist:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.album__song-counter {
+    color: var(--clr-light-gray);
+}
+
+.album__song {
+    display: flex;
+    align-items: center;
+    cursor: default;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    gap: 1.5rem;
+    transition: background-color 0.1s ease;
+}
+
+.album__song:hover {
+    background-color: rgba(177, 177, 177, 0.2);
+}
+
+.album__song:hover p {
+    color: var(--clr-light);
+}
+
+.song__info {
+    align-self: flex-end;
+}
+
+.song__title {
+    font-size: var(--size-lg);
+    letter-spacing: 0.025rem;
+}
+
+.song__title:hover,
+.song__artist:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.song__artist {
+    color: var(--clr-light-gray);
+}

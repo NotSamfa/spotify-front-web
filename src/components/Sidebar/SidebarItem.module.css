@@ -1,0 +1,34 @@
+.item {
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    max-width: 100%;
+    transition: background-color 0.1s ease;
+}
+
+.item:hover {
+    background-color: var(--clr-gray);
+}
+
+.itemImage {
+    height: 50px;
+    width: 50px;
+    border-radius: 3px;
+}
+
+.artist {
+    border-radius: 100%;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.info {
+    color: var(--clr-light-gray);
+    font-size: var(--size-sm);
+}

@@ -1,0 +1,26 @@
+.artist {
+    padding: 1rem;
+}
+
+.artist__profile {
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    height: 40%;
+    width: 100%;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.artist__profile img {
+    border-radius: 100%;
+    object-fit: cover;
+    height: 232px;
+    width: 232px;
+}
+
+.artist__title {
+    font-size: var(--size-5xl);
+    font-weight: bold;
+    letter-spacing: -0.05rem;
+}

@@ -1,0 +1,7 @@
+.layout {
+    background-color: var(--clr-dark);
+    border-radius: 7px;
+    height: 95%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
