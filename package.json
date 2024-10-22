@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "colorthief": "^2.6.0",
+    "fast-average-color": "^9.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.27.0"
+    "react-router-dom": "^6.27.0",
+    "react-youtube": "^10.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
