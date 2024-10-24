@@ -45,8 +45,7 @@
     color: var(--clr-light-gray);
 }
 
-.title:hover,
-.artist:hover {
+.title:hover {
     text-decoration: underline;
 }
 

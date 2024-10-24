@@ -33,6 +33,8 @@
 .album__info {
     display: flex;
     flex-direction: column;
+    /* align-items: flex-end; */
+    margin-top: 90px;
     gap: 0.5rem;
 }
 

@@ -14,31 +14,31 @@ function MusicItem({ data }) {
 
     function handleClickTitle(event) {
         event.stopPropagation();
-        let to = `/album/${data.title}`;
+        let to = `/album/${data.titulo}`;
 
-        if (data.isGenre !== undefined) to = `/genre/${data.title}`;
-        if (data.isArtist !== undefined) to = `/artist/${data.title}`;
+        if (data.isGenre !== undefined) to = `/genre/${data.nombre}`;
+        if (data.isArtist !== undefined) to = `/artist/${data.nombre}`;
 
         navigate(to);
     }
 
     function handleClickArtist(event) {
         event.stopPropagation();
-        navigate(`/artist/${data.artist}`);
+        navigate(`/artist/${data.nombre}`);
     }
 
     function handleCardClick() {
-        let to = '/album/';
+        let to = `/album/${data.titulo}`;
 
-        if (data.isGenre !== undefined) to = '/genre/';
+        if (data.isGenre !== undefined) to = `/genre/${data.genero.nombre}`;
 
-        navigate(to + data.title);
+        navigate(to);
     }
 
     return (
         <div className={styles.musicItem} onClick={data.isArtist !== undefined ? handleClickTitle : handleCardClick}>
             <img className={data.isArtist !== undefined ? styles.artistImage : styles.musicImage} 
-                src={data.imageUrl || 'https://via.placeholder.com/150'} alt={data.name} />
+                src={data.imagen || 'https://via.placeholder.com/150'} alt={data.titulo} />
             
             {data.isArtist !== undefined && 
                 <div role='button' className={styles.playButton}>
@@ -48,7 +48,7 @@ function MusicItem({ data }) {
                 </div> 
             }
             
-            <a className={styles.title} onClick={handleClickTitle}>{data.title}</a>     
+            <a className={styles.title} onClick={handleClickTitle}>{data.titulo}</a>     
             
             {!data.isGenre && 
                 <a className={styles.information} onClick={data.isArtist !== undefined ? handleClickTitle : handleClickArtist}>
@@ -58,6 +58,32 @@ function MusicItem({ data }) {
         </div>
     );
 }
+// function MusicItem({ data }) {
+    
+
+//     return (
+//         <div className={styles.musicItem} onClick={handleCardClick}>
+//             <img className={data.titulo !== undefined ? styles.musicImage : styles.artistImage} 
+//                 src={data.imagen || 'https://via.placeholder.com/150'} alt={data.titulo} />
+            
+//             {data.artista !== undefined && 
+//                 <div role='button' className={styles.playButton}>
+//                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#121212">
+//                         <path d="M320-200v-560l440 280-440 280Z"/>
+//                     </svg>            
+//                 </div> 
+//             }
+            
+//             <a className={styles.title} onClick={handleClickTitle}>{data.titulo}</a>     
+            
+//             {!data.genero && 
+//                 <a className={styles.information} onClick={data.artista !== undefined ? handleClickTitle : handleClickArtist}>
+//                     {data.artista.nombre}
+//                 </a>
+//             }
+//         </div>
+//     );
+// }
 
 
 MusicItem.propTypes = {

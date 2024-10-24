@@ -18,8 +18,8 @@
     font-size: var(--size-2xl);
     font-weight: bold;
     padding: 1.25rem;
-    position: relative;
-    height: 115px;
+    /* position: relative; */
+    /* height: 115px; */
     width: 245px;
     overflow: hidden;
 }
@@ -34,14 +34,14 @@
     transform: rotate(25deg);
     position: relative;
     left: 10rem;
-    bottom: 0.75rem;
+    bottom: -3.75rem;
 }
 
 .card.expanded img {
     left: 12rem;
 }
 
-.pop {
+/* .pop {
     background-color: #477d95;
 }
 
@@ -75,4 +75,4 @@
 
 .alt {
     background-color: #e13300;
-}
+} */

@@ -13,23 +13,102 @@ function Artist() {
     const { name } = useParams();
     const [bgColor, setBgColor] = useState('var(--clr-dark)');
     const [gradientBg, setGradientBg] = useState(`linear-gradient(0deg, ${bgColor} 60%, var(--clr-gray) 100%)`);
+    const [artist, setArtist] = useState('');
+    const [songs, setSongs] = useState('');
+    const [albums, setAlbums] = useState('');
 
     useEffect(() => {
+        async function fetchArtist(name) {
+            try {
+                const response = await fetch('http://localhost:3000/artista/nombre/' + name);
+                
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de la API');
+                }
+                
+                const data = await response.json();
+                setArtist(data.artista);
+                
+                // const fac = new FastAverageColor();
+        
+                // fac.getColorAsync(data.cancion.imagen)
+                //     .then(color => {
+                //         setAverageColor(color.hex);
+                //     })
+                //     .catch(error => {
+                //         console.error('Error al obtener el color promedio:', error);
+                //     });
+                
+                const fetchAlbumByArtist = async (name) => {
+                    try {
+                        const response = await fetch(`http://localhost:3000/album/albumArtista/${name}`);
+                        if (!response.ok) {
+                            throw new Error(`Error al obtener los detalles del álbumes del artista: ${name}`);
+                        }
+                        const data = await response.json();
+                        setAlbums(data.albums);
+
+                    } catch (error) {
+                        console.error('Error al obtener el álbum:', error);
+                    }
+                };
+
+                const fetchSongByArtist = async (name) => {
+                    try {
+                        const response = await fetch(`http://localhost:3000/cancion/cancionArtista/${name}`);
+                        if (!response.ok) {
+                            throw new Error(`Error al obtener los detalles de las canciones del artista: ${name}`);
+                        }
+                        const data = await response.json();
+                        setSongs(data.canciones);
+
+                    } catch (error) {
+                        console.error('Error al obtener las canciones:', error);
+                    }
+                };
+
+                fetchAlbumByArtist(name)
+                fetchSongByArtist(name)
+                // console.log(albums)
+                
+                // Limpieza del componente
+                return () => {
+                    // fac.destroy();
+                    response.destroy();
+                };
+            }catch (error) {
+                console.error('Error al hacer la petición:', error);
+            }
+        };
+
+        fetchArtist(name).catch(error => console.error('Error fetching album:', error));
+
         setGradientBg(`linear-gradient(0deg, var(--clr-dark) 60%, ${bgColor} 100%)`);
-    }, [bgColor]);
+    }, [bgColor, name, artist, ]);
 
     return (
         <Layout>
             <div className='artist' style={{ background: gradientBg }}>
-                <ArtistProfile name={name} setBgColor={setBgColor} />
+                <ArtistProfile artist={artist} setBgColor={setBgColor} />
                 <SongsSection>
-                    {songs.map((song, index) =>
-                        <SongItem key={song.title} data={song} enumSong={index + 1} />
+                    {songs.length > 0 ? (
+                        songs.map((song, index) =>
+                        <SongItem key={song._id} 
+                            data={song}
+                            enumSong={index + 1}
+                        />
+                    )): (
+                        <h3>Cargando canciones...</h3>
                     )}
                 </SongsSection>
-                <Section title={'Discografía'}>
-                    {songs.map((album) =>
-                        <MusicItem key={album.title} data={album} />
+                <Section  title={'Discografía'}>
+                    {albums.length > 0 ? (
+                        albums.map(album =>
+                        <MusicItem key={album._id} 
+                            data={album}
+                        />
+                    )): (
+                        <h3>Cargando albumes...</h3>
                     )}
                 </Section>
             </div>
@@ -37,7 +116,7 @@ function Artist() {
     );
 }
 
-function ArtistProfile({ name, setBgColor }) {
+function ArtistProfile({ artist, setBgColor }) {
     const imgRef = useRef(null);
 
     useEffect(() => {
@@ -53,53 +132,53 @@ function ArtistProfile({ name, setBgColor }) {
                 setBgColor(rgbColor);
             };
         }
-    }, [imgRef, setBgColor]);
+    }, [imgRef, setBgColor, artist]);
 
     return (
         <div className='artist__profile'>
             <img
                 ref={imgRef}
-                src='/src/assets/test/placeholder-profile.jpg'
-                alt={name}
+                src={artist.imagen}
+                alt={artist.nombre}
                 crossOrigin="anonymous"
             />
-            <h1 className='artist__title'>{name}</h1>
+            <h1 className='artist__title'>{artist.nombre}</h1>
         </div>
     );
 }
 
 ArtistProfile.propTypes = {
-    name: PropTypes.string.isRequired,
+    artist: PropTypes.object.isRequired,
     setBgColor: PropTypes.func.isRequired,
 };
 
-const songs = [
-    {
-        title: '運命の旋律 - Main Theme',
-        imageUrl: 'https://via.placeholder.com/150',
-        artist: 'Piano Solo'
-    },
-    {
-        title: '交響曲第1番 "Dawn"',
-        imageUrl: 'https://via.placeholder.com/150',
-        artist: 'Piano Solo'
-    },
-    {
-        title: '真紅の運命',
-        imageUrl: 'https://via.placeholder.com/150',
-        artist: 'Piano Solo'
-    },
-    {
-        title: '街角の調べ',
-        imageUrl: 'https://via.placeholder.com/150',
-        artist: 'Piano Solo'
-    },
-    {
-        title: '運命への序曲',
-        imageUrl: 'https://via.placeholder.com/150',
-        artist: 'Piano Solo'
-    }
-];
+// const songs = [
+//     {
+//         title: '運命の旋律 - Main Theme',
+//         imageUrl: 'https://via.placeholder.com/150',
+//         artist: 'Piano Solo'
+//     },
+//     {
+//         title: '交響曲第1番 "Dawn"',
+//         imageUrl: 'https://via.placeholder.com/150',
+//         artist: 'Piano Solo'
+//     },
+//     {
+//         title: '真紅の運命',
+//         imageUrl: 'https://via.placeholder.com/150',
+//         artist: 'Piano Solo'
+//     },
+//     {
+//         title: '街角の調べ',
+//         imageUrl: 'https://via.placeholder.com/150',
+//         artist: 'Piano Solo'
+//     },
+//     {
+//         title: '運命への序曲',
+//         imageUrl: 'https://via.placeholder.com/150',
+//         artist: 'Piano Solo'
+//     }
+// ];
 
 
 export default Artist

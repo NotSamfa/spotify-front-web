@@ -6,30 +6,31 @@ function SongItem({data, enumSong}) {
     const navigate = useNavigate();
 
     function handleClickCard() {
-        navigate(`/song/${data.title}`);
+        navigate(`/song/${data.titulo}`);
     }
 
     function handleClickTitle(event) {
         event.stopPropagation();
-        navigate(`/song/${data.title}`);
+        navigate(`/song/${data.titulo}`);
     }
 
-    function handleCardArtist(event){
-        event.stopPropagation();
-        navigate(`/artist/${data.artist}`);
-    }
+    // function handleCardArtist(event){
+    //     event.stopPropagation();
+    //     navigate(`/artist/${data.artist}`);
+    // }
 
     return (
         <div className={styles.song} onClick={handleClickCard}>
             {enumSong && <span>{enumSong}</span>}
-            <img src={data.imageUrl || 'https://via.placeholder.com/150'} alt={data.title} />
+            <img src={data.imagen || 'https://via.placeholder.com/150'} alt={data.titulo} />
             <div className={styles.infoContainer}>
                 <div className={styles.infoMain}>
-                    <a className={styles.title} onClick={handleClickTitle}>{data.title}</a>
-                    <a className={styles.artist} onClick={handleCardArtist}>{data.artist}</a>
+                    <a className={styles.title} onClick={handleClickTitle}>{data.titulo}</a>
+                    <p className={styles.artist}>{data.artista.nombre}</p>
+                    {/* <a className={styles.artist} onClick={handleCardArtist}>{data.artist}</a> */}
                 </div>
                 <div className={styles.duration}>
-                    <span>4:03</span>
+                    <span>{data.duracion}</span>
                 </div>
             </div>
         </div>
