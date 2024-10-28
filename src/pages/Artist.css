@@ -24,3 +24,22 @@
     font-weight: bold;
     letter-spacing: -0.05rem;
 }
+
+.artist__folow-container {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.artist__follow-btn {
+    border: 1px solid var(--clr-light-gray);
+    border-radius: 20px;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: var(--size-sm);
+    margin-left: 1.5rem;
+}
+
+.artist__follow-btn:hover {
+    border-color: var(--clr-light);
+}

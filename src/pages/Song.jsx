@@ -106,7 +106,7 @@ function Song() {
     return (
         <Layout>
     <div className='song-detail' style={{
-        background: `linear-gradient(175deg, ${averageColor}, rgba(0, 0, 0, 0.8))`, // Gradiente con el color promedio
+        background: `linear-gradient(175deg, ${averageColor}, rgba(0, 0, 0, 0.8))`,
         }}>
         <div className="overlay" >
             <img src={song.imagen} alt="Song cover" className="song-cover" />

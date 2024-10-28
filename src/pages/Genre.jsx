@@ -46,7 +46,7 @@ function Genre() {
     return (
         <Layout>
             <div className='genre' style={{
-                background: `linear-gradient(175deg, ${averageColor}, rgba(0, 0, 0, 0.8))`, // Gradiente con el color promedio
+                background: `linear-gradient(175deg, ${averageColor}, rgba(0, 0, 0, 0.8))`,
             }}>
                 <div className='genre__title'>
                     <h1>{name}</h1>
@@ -57,7 +57,7 @@ function Genre() {
                             
                         <MusicItem key={album._id} data={album} />
                     )): (
-                        <h3>Cargando géneros...</h3> // Muestra un mensaje mientras se cargan los datos
+                        <h3>Cargando géneros...</h3>
                     )}
                 </div>
             </div>

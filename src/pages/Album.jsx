@@ -82,6 +82,7 @@ function Album() {
                     onClickArtist={() => handleToArtist('Artist')}
                     setBgColor={setAverageColor}
                 />
+                <AlbumMenu albumName={name} />
                 <div className='album__content'>
                     {songs.length > 0 ? (
                         songs.map((song, index) =>
@@ -93,7 +94,7 @@ function Album() {
                             onClickArtist={() => handleToArtist(album.artista.nombre)}
                         />
                     )): (
-                        <h3>Cargando albumes...</h3> // Muestra un mensaje mientras se cargan los datos
+                        <h3>Cargando albumes...</h3>
                     )}
                 </div>
             </div>
@@ -146,6 +147,57 @@ AlbumHeader.propTypes = {
     // onClickArtist: PropTypes.func.isRequired,
     setBgColor: PropTypes.func.isRequired,
 };
+
+
+function AlbumMenu({ albumName }) {
+    const [isAlbumAdded, setIsAlbumAdded] = useState(false);
+
+    useEffect(() => {
+        const listAlbums = JSON.parse(localStorage.getItem('listAlbums')) || [];
+        setIsAlbumAdded(listAlbums.includes(albumName));
+    }, [albumName]);
+
+    function handleAddAlbum() {
+        const listAlbums = JSON.parse(localStorage.getItem('listAlbums')) || [];
+
+        if (!isAlbumAdded) {
+            listAlbums.push(albumName);
+        } else {
+            
+            const index = listAlbums.indexOf(albumName);
+            if (index > -1) {
+                listAlbums.splice(index, 1);
+            }
+        }
+
+        localStorage.setItem('listAlbums', JSON.stringify(listAlbums));
+        setIsAlbumAdded(!isAlbumAdded);
+    }
+
+    return (
+        <div className='album__add-container'>
+            <span className={`album__add-btn ${isAlbumAdded ? 'album__added' : ''}`} onClick={handleAddAlbum}>
+                {isAlbumAdded 
+                ? 
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#121212">
+                        <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
+                    </svg>
+
+
+                :
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#b1b1b1">
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+                    </svg>
+                }
+            </span>
+        </div>
+    );
+}
+
+AlbumMenu.propTypes = {
+    albumName: PropTypes.string.isRequired
+};
+
 
 function AlbumSong({ song, nameArtist, numSong = 0, onClickSong, onClickArtist }) {
     return (

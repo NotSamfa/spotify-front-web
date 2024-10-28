@@ -82,7 +82,7 @@ function Explore({sidebarOpen}) {
                 </div>
                 ))
             ) : (
-                <h3>Cargando géneros...</h3> // Muestra un mensaje mientras se cargan los datos
+                <h3>Cargando géneros...</h3>
             )}
             </div>
             {/* {genres.map((genre, index) => {

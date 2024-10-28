@@ -90,6 +90,7 @@ function Artist() {
         <Layout>
             <div className='artist' style={{ background: gradientBg }}>
                 <ArtistProfile artist={artist} setBgColor={setBgColor} />
+                <ActionMenu artistName={name} />
                 <SongsSection>
                     {songs.length > 0 ? (
                         songs.map((song, index) =>
@@ -147,9 +148,47 @@ function ArtistProfile({ artist, setBgColor }) {
     );
 }
 
+
 ArtistProfile.propTypes = {
     artist: PropTypes.object.isRequired,
     setBgColor: PropTypes.func.isRequired,
+};
+
+function ActionMenu({ artistName }) {
+    const [isArtistFollowed, setIsArtistFollowed] = useState(false);
+
+    useEffect(() => {
+        const listArtist = JSON.parse(localStorage.getItem('listArtist')) || [];
+        setIsArtistFollowed(listArtist.includes(artistName));
+    }, [artistName]);
+
+    function handleFollow() {
+        const listArtist = JSON.parse(localStorage.getItem('listArtist')) || [];
+
+        if (!isArtistFollowed) {
+            listArtist.push(artistName);
+        } else {
+            const index = listArtist.indexOf(artistName);
+            if (index > -1) {
+                listArtist.splice(index, 1);
+            }
+        }
+
+        localStorage.setItem('listArtist', JSON.stringify(listArtist));
+        setIsArtistFollowed(!isArtistFollowed);
+    }
+
+    return (
+        <div className='artist__folow-container'>
+            <span className='artist__follow-btn' onClick={handleFollow} >
+                {isArtistFollowed ? 'Siguiendo' : 'Seguir'}
+            </span>        
+        </div>
+    );
+}
+
+ActionMenu.propTypes = {
+    artistName: PropTypes.string.isRequired
 };
 
 // const songs = [

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Song from "./pages/Song";
@@ -14,6 +14,15 @@ import Results from "./pages/Results";
 function App() {
   const[sidebarOpen, setSidebarOpen] = useState(true);
   
+  useEffect(() => {
+        if (!localStorage.getItem('listArtist')) {
+            localStorage.setItem('listArtist', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('listAlbums')) {
+            localStorage.setItem('listAlbums', JSON.stringify([]));
+        }
+    }, []);
+
 
   return (
     <Router>

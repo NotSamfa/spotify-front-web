@@ -30,6 +30,45 @@
     width: 232px;
 }
 
+.album__add-container {
+    margin-top: 1.5rem;
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+.album__add-btn {
+    border-radius: 100%;
+    border: 1px solid var(--clr-light-gray);
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.album__add-btn svg {
+    height: 24px;
+    width: 24px;
+}
+
+.album__add-btn:hover {
+    border-color: var(--clr-light);
+}
+
+.album__add-btn:hover svg {
+    fill: var(--clr-light);
+}
+
+.album__add-btn.album__added {
+    border: none;
+    background-color: var(--clr-green);
+}
+
+.album__add-btn.album__added:hover svg {
+    fill: var(--clr-dark);
+}
+
+
 .album__info {
     display: flex;
     flex-direction: column;
