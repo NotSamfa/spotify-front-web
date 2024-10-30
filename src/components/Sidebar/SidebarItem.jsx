@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './SidebarItem.module.css';
 
 
-{/* Cambiar logica para saber si es un artista o no [data.isArtist]
-    Cambiar valores que usa del objeto data */}
 function SidebarItem({isOpen, data}) {
     const navigate = useNavigate();
+    const [info, setInfo] = useState('');
 
 
     function handleClick(){
@@ -17,16 +17,50 @@ function SidebarItem({isOpen, data}) {
         navigate(to);
     }
 
+    async function fetchData(info) {
+        try {
+
+            if (!info.isArtist) {
+                const response = await fetch(`http://localhost:3000/album/albumTitulo/${info.title}`);
+            
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de la API');
+                }
+            
+                const data = await response.json();
+                setInfo(data.album);
+
+            }
+
+            if (info.isArtist) {
+                const response = await fetch(`http://localhost:3000/artista/nombre/${info.artist}`);
+            
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de la API');
+                }
+            
+                const data = await response.json();
+                setInfo(data.artista);
+            }
+        }catch (error) {
+            console.error('Error al hacer la petición:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData(data);
+    }, [data]);
+
 
     return (
         <li className={styles.item} onClick={handleClick}>
-            <img src={data.imageUrl || 'https://via.placeholder.com/50'} alt={data.title} 
+            <img src={info.imagen || 'https://via.placeholder.com/50'} alt={data.title || data.artist} 
             className={`${styles.itemImage} ${data.isArtist ? styles.artist : ''}`} />
 
             {isOpen &&
                 <div className={styles.infoContainer}>
                     <p className={styles.title}>{data.isArtist ? data.artist : data.title}</p>
-                    <p className={styles.info}>{data.isArtist ? 'Artista' : data.artist}</p>
+                    <p className={styles.info}>{data.isArtist ? 'Artista' : info.artista?.nombre}</p>
                 </div>
 
             }

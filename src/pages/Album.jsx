@@ -23,52 +23,52 @@ function Album() {
         navigate(to);
     };
 
-    useEffect(() => {
-        async function fetchAlbum(name) {
-            try {
-                const response = await fetch('http://localhost:3000/album/albumTitulo/' + name);
-                
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta de la API');
-                }
-                
-                const data = await response.json();
-                setAlbum(data.album);
-                
-                const fac = new FastAverageColor();
-        
-                fac.getColorAsync(data.album.imagen)
-                    .then(color => {
-                        setAverageColor(color.hex);
-                    })
-                    .catch(error => {
-                        console.error('Error al obtener el color promedio:', error);
-                    });
-                
-                const songsData = await Promise.all(
-                    data.album.canciones.map(async (cancionId) => {
-                        const response = await fetch(`http://localhost:3000/cancion/${cancionId}`);
-                        if (!response.ok) {
-                            throw new Error(`Error al obtener los detalles de la canción con ID: ${cancionId}`);
-                        }
-                        const data = await response.json();
-                        return data.cancion;
-                    })
-                );
-
-                setSongs(songsData);
-                
-                // Limpieza del componente
-                return () => {
-                    fac.destroy();
-                    response.destroy();
-                    songsData.destroy();
-                };
-            }catch (error) {
-                console.error('Error al hacer la petición:', error);
+    async function fetchAlbum(name) {
+        try {
+            const response = await fetch('http://localhost:3000/album/albumTitulo/' + name);
+            
+            if (!response.ok) {
+                throw new Error('Error en la respuesta de la API');
             }
-        };
+            
+            const data = await response.json();
+            setAlbum(data.album);
+            
+            const fac = new FastAverageColor();
+    
+            fac.getColorAsync(data.album.imagen)
+                .then(color => {
+                    setAverageColor(color.hex);
+                })
+                .catch(error => {
+                    console.error('Error al obtener el color promedio:', error);
+                });
+            
+            const songsData = await Promise.all(
+                data.album.canciones.map(async (cancionId) => {
+                    const response = await fetch(`http://localhost:3000/cancion/${cancionId}`);
+                    if (!response.ok) {
+                        throw new Error(`Error al obtener los detalles de la canción con ID: ${cancionId}`);
+                    }
+                    const data = await response.json();
+                    return data.cancion;
+                })
+            );
 
+            setSongs(songsData);
+            
+            // Limpieza del componente
+            return () => {
+                fac.destroy();
+                response.destroy();
+                songsData.destroy();
+            };
+        }catch (error) {
+            console.error('Error al hacer la petición:', error);
+        }
+    };
+
+    useEffect(() => {
         fetchAlbum(name).catch(error => console.error('Error fetching album:', error));
     }, [name, songs]);
 
@@ -79,7 +79,7 @@ function Album() {
                     album={album}
                     // nameArtist={album.artista}
                     numSongs={songs.length}
-                    onClickArtist={() => handleToArtist('Artist')}
+                    onClickArtist={() => handleToArtist(album.artista?.nombre)}
                     setBgColor={setAverageColor}
                 />
                 <AlbumMenu albumName={name} />
@@ -91,10 +91,10 @@ function Album() {
                             nameArtist={album.artista.nombre}
                             numSong={index + 1}
                             onClickSong={() => handleToSong(song.titulo)}
-                            onClickArtist={() => handleToArtist(album.artista.nombre)}
+                            onClickArtist={() => handleToArtist(album.artista?.nombre)}
                         />
                     )): (
-                        <h3>Cargando albumes...</h3>
+                        <h3>Cargando canciones...</h3>
                     )}
                 </div>
             </div>
@@ -102,7 +102,7 @@ function Album() {
     );
 }
 
-function AlbumHeader({ album, numSongs = 0, setBgColor }) {
+function AlbumHeader({ album, numSongs = 0, setBgColor, onClickArtist}) {
     const imgRef = useRef(null);
 
     useEffect(() => {
@@ -132,8 +132,8 @@ function AlbumHeader({ album, numSongs = 0, setBgColor }) {
                 <p className='content-type'>Álbum</p>
                 <h1 className='album__name'>{album.titulo}</h1>
                 <div className='info__extra'>
-                    {/* <p className='album__artist' onClick={onClickArtist}>{album.artista.nombre}</p>
-                    <span>•</span> */}
+                    <p className='album__artist' onClick={onClickArtist}>{album.artista?.nombre}</p>
+                    <span>•</span>
                     <p className='album__song-counter'>{numSongs} canciones</p>
                 </div>
             </div>
@@ -144,7 +144,7 @@ function AlbumHeader({ album, numSongs = 0, setBgColor }) {
 AlbumHeader.propTypes = {
     album: PropTypes.object.isRequired,
     numSongs: PropTypes.number,
-    // onClickArtist: PropTypes.func.isRequired,
+    onClickArtist: PropTypes.func.isRequired,
     setBgColor: PropTypes.func.isRequired,
 };
 
@@ -154,17 +154,21 @@ function AlbumMenu({ albumName }) {
 
     useEffect(() => {
         const listAlbums = JSON.parse(localStorage.getItem('listAlbums')) || [];
-        setIsAlbumAdded(listAlbums.includes(albumName));
+
+        setIsAlbumAdded(listAlbums.some(album => album.title === albumName && album.isArtist === false));
     }, [albumName]);
 
     function handleAddAlbum() {
         const listAlbums = JSON.parse(localStorage.getItem('listAlbums')) || [];
 
         if (!isAlbumAdded) {
-            listAlbums.push(albumName);
+            listAlbums.push({
+                title: albumName,
+                isArtist: false
+            });
         } else {
             
-            const index = listAlbums.indexOf(albumName);
+            const index = listAlbums.findIndex(album => album.title === albumName && album.isArtist === false);
             if (index > -1) {
                 listAlbums.splice(index, 1);
             }
@@ -210,6 +214,9 @@ function AlbumSong({ song, nameArtist, numSong = 0, onClickSong, onClickArtist }
                 <p className='song__artist' onClick={onClickArtist}>
                     {nameArtist}
                 </p>
+            </div>
+            <div className='song__duration'>
+                    <span>{song.duracion}</span>
             </div>
         </div>
     );

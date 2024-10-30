@@ -29,16 +29,6 @@ function Artist() {
                 const data = await response.json();
                 setArtist(data.artista);
                 
-                // const fac = new FastAverageColor();
-        
-                // fac.getColorAsync(data.cancion.imagen)
-                //     .then(color => {
-                //         setAverageColor(color.hex);
-                //     })
-                //     .catch(error => {
-                //         console.error('Error al obtener el color promedio:', error);
-                //     });
-                
                 const fetchAlbumByArtist = async (name) => {
                     try {
                         const response = await fetch(`http://localhost:3000/album/albumArtista/${name}`);
@@ -158,23 +148,26 @@ function ActionMenu({ artistName }) {
     const [isArtistFollowed, setIsArtistFollowed] = useState(false);
 
     useEffect(() => {
-        const listArtist = JSON.parse(localStorage.getItem('listArtist')) || [];
-        setIsArtistFollowed(listArtist.includes(artistName));
+        const listArtist = JSON.parse(localStorage.getItem('listArtists')) || [];
+        setIsArtistFollowed(listArtist.some(artist => artist.artist === artistName && artist.isArtist === true));
     }, [artistName]);
 
     function handleFollow() {
-        const listArtist = JSON.parse(localStorage.getItem('listArtist')) || [];
+        const listArtist = JSON.parse(localStorage.getItem('listArtists')) || [];
 
         if (!isArtistFollowed) {
-            listArtist.push(artistName);
+            listArtist.push({
+                artist: artistName,
+                isArtist: true
+            });
         } else {
-            const index = listArtist.indexOf(artistName);
+            const index = listArtist.findIndex(artist => artist.artist === artistName && artist.isArtist === true);
             if (index > -1) {
                 listArtist.splice(index, 1);
             }
         }
 
-        localStorage.setItem('listArtist', JSON.stringify(listArtist));
+        localStorage.setItem('listArtists', JSON.stringify(listArtist));
         setIsArtistFollowed(!isArtistFollowed);
     }
 

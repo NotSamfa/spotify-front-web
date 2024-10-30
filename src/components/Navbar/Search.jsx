@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Search({isExploring, onExploring, query, onSearch}) {        
+function Search({isExploring, onExploring, query, onSearch}) {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);        
     const navigate = useNavigate();
     const inputRef = useRef(null);
 
@@ -30,8 +33,33 @@ function Search({isExploring, onExploring, query, onSearch}) {
         }
     }
 
-    
+    useEffect(() => {
+        const urls = [
+            `http://localhost:3000/album/albumTitulo/${query}`,
+            `http://localhost:3000/cancion/titulo/${query}`,
+            `http://localhost:3000/artista/nombre/${query}`,
 
+        ];
+
+        const fetchAllData = async () => {
+            try {
+                setLoading(true);
+                const responses = await Promise.all(urls.map((url) => fetch(url)));
+                const results = await Promise.all(responses.map((response) => response.json()));
+                
+                setData(results);
+            } catch (err) {
+                setError('Error al cargar los datos', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAllData();
+    }, [query]);
+
+    if (loading) return <p>Cargando...</p>;
+    if (error) return <p>{error}</p>;
 
     return (
         <div className='search-bar' onClick={handleClickToNavigate}>

@@ -58,33 +58,6 @@ function MusicItem({ data }) {
         </div>
     );
 }
-// function MusicItem({ data }) {
-    
-
-//     return (
-//         <div className={styles.musicItem} onClick={handleCardClick}>
-//             <img className={data.titulo !== undefined ? styles.musicImage : styles.artistImage} 
-//                 src={data.imagen || 'https://via.placeholder.com/150'} alt={data.titulo} />
-            
-//             {data.artista !== undefined && 
-//                 <div role='button' className={styles.playButton}>
-//                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#121212">
-//                         <path d="M320-200v-560l440 280-440 280Z"/>
-//                     </svg>            
-//                 </div> 
-//             }
-            
-//             <a className={styles.title} onClick={handleClickTitle}>{data.titulo}</a>     
-            
-//             {!data.genero && 
-//                 <a className={styles.information} onClick={data.artista !== undefined ? handleClickTitle : handleClickArtist}>
-//                     {data.artista.nombre}
-//                 </a>
-//             }
-//         </div>
-//     );
-// }
-
 
 MusicItem.propTypes = {
     data: PropTypes.object.isRequired
